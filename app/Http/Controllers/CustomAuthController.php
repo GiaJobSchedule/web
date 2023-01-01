@@ -11,11 +11,19 @@ use Illuminate\Support\Facades\Session;
 
 class CustomAuthController extends Controller
 {
+    /**
+     * Login screen
+     * @author thanh.clg
+     */
     public function index()
     {
         return view('auth.login');
     }
 
+    /**
+     * Handle login form submit
+     * @author thanh.clg
+     */
     public function customLogin(Request $request)
     {
         $request->validate([
@@ -29,14 +37,22 @@ class CustomAuthController extends Controller
                 ->withSuccess('Signed in');
         }
 
-        return redirect('login')->withSuccess('Login are not valid');
+        return redirect()->route('dashboard')->withSuccess('Login are not valid');
     }
 
+    /**
+     * Registration screen
+     * @author thanh.clg
+     */
     public function registration()
     {
-        return view('auth.registrattion');
+        return view('auth.registration');
     }
 
+    /**
+     * Handle registration form submit
+     * @author thanh.clg
+     */
     public function customRegistration(Request $request)
     {
         $request->validate([
@@ -48,27 +64,28 @@ class CustomAuthController extends Controller
         $data = $request->all();
         $check = $this->create($data);
 
-        return redirect("dashboard")->withSuccess('You have signed-in');
+        return redirect()->route('dashboard')->withSuccess('You have signed-in');
     }
 
+    /**
+     * create user function
+     * @author thanh.clg
+     */
     public function create(array $data)
     {
         return User::create([
             'first_name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+            'password' => Hash::make($data['password']),
+            'active' => true,
+            'del' => false,
         ]);
     }
 
-    public function dashboard()
-    {
-        if(Auth::check()){
-            return view('dashboard');
-        }
-
-        return redirect("login")->withSuccess('You are not allowed to access');
-    }
-
+    /**
+     * Signout
+     * @author thanh.clg
+     */
     public function signOut()
     {
         Session::flush();

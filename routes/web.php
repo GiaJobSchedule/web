@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\{
+    CustomAuthController,
+    DashboardController,
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -14,14 +17,12 @@ use App\Http\Controllers\CustomAuthController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::controller(CustomAuthController::class)->group(function() {
     Route::get('login', 'index')->name('login');
     Route::post('custom-login', 'customLogin')->name('custom-login');
     Route::get('registration', 'registration')->name('registration');
-    Route::get('custom-registration', 'customRegistration')->name('custom-registration');
+    Route::post('custom-registration', 'customRegistration')->name('custom-registration');
     Route::get('signout', 'signOut')->name('signout');
 });
