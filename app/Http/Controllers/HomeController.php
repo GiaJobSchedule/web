@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class IssueController extends Controller
+class HomeController extends Controller
 {
     /**
-     * search list issue 
+     * Home page
      */
-    public function search()
+    public function index()
     {
 
     }
-
 }
